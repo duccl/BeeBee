@@ -2,71 +2,48 @@ import React, { useState, Component } from 'react';
 import {
   SafeAreaView,
   StyleSheet,
-  ScrollView,
-  View,
-  Text,
   StatusBar,
   Button,
-  Animated,
-  Image,
+  TextInput
 } from 'react-native';
 
 export default class Cadastrar extends Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      nome:undefined,
+      placa:undefined,
+      CPF:undefined,
+      dataEntrada:undefined,
+      dataSaida:undefined,
+      contato:undefined
+    };
+    this.placeholders = ["Nome","Placa","CPF","Contato"]
+  }
+
   render() {
     return (
-        <SafeAreaView style={styles.container}>
-
+        <SafeAreaView style={styles.coluna}>
           <StatusBar backgroundColor="#DBA901" barStyle="light-content"></StatusBar>
-        
-          <View>
-              <Button 
-              title="Back"
-              onPress={_ => this.props.navigation.goBack()}
-              />
-          </View>
+          {this.placeholders.map((valor,chave) => <TextInput placeholder={valor} 
+                                                                   key={chave} 
+                                                                   style={styles.linha}
+                                                                   onChangeText={(text) => this.setState({nome: text})}/>)}
+          <Button title={"Cadastrar"} onPress={alert.bind(this,this.state)}/>
         </SafeAreaView>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#FACC2E"
+  linha: {
+    flexDirection:"row",
+    backgroundColor: "#FACC2E",
+    margin:10
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: "center",
-    margin: 10,
-    color: "#FFF",
-    fontWeight: "bold"
-  },
-  separator: {
-    marginVertical: 8,
-    borderBottomColor: '#737373',
-    borderBottomWidth: StyleSheet.hairlineWidth,
-  },
-  button: {
-    width: 300,
-    justifyContent: "center"
-  },
-  cards: {
-    color: '#FBE37B',
-    fontSize: 30,
-    marginTop: 12,
-    fontFamily: 'Montserrat-Regular',
-
-  },
-  nameCards: {
-    backgroundColor: '#282928',
-    borderRadius: 20,
-    width: 200,
-    height: 70,
-    marginTop: 10,
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center'
+  coluna:{  
+    flex:1,
+    flexDirection:"column",
+    justifyContent: "space-between",
   }
 });
