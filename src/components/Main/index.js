@@ -9,7 +9,7 @@ import {
   Button,
   Animated,
   Image,
-  Icon,
+  Icon
 } from 'react-native';
 
 import * as Animatable from 'react-native-animatable';
@@ -31,24 +31,37 @@ export default class Main extends Component{
         
           <View style={styles.nameCards} onTouchEnd={_ => this.props.navigation.navigate('Cadastrar')}>
             <Text style={styles.cards}>Cadastrar</Text>
+            <Image 
+              style={{width: 50, height: 50, position: "absolute", marginLeft: 185, marginTop: 4}}
+              source={require('../../../assets/cadastroCarro.png')}
+            />
           </View>
 
           <View style={styles.nameCards} onTouchEnd={_ => this.props.navigation.navigate('Remover')}>
             <Text style={styles.cards}>Remover</Text>
+            <Image 
+              style={{width: 50, height: 50, position: "absolute", marginLeft: 185, marginTop: 4}}
+              source={require('../../../assets/removeCarro.png')}
+            />
           </View>
 
           <View style={styles.nameCards} onTouchEnd={_ => this.props.navigation.navigate('Buscar')}>
             <Text style={styles.cards}>Buscar</Text>
+            <Image 
+              style={{width: 48, height: 48, position: "absolute", marginLeft: 185, marginTop: 4}}
+              source={require('../../../assets/buscaCarro.png')}
+            />
           </View>
 
           <View style={styles.nameCards} onTouchEnd={_ => this.props.navigation.navigate('Listar')}>
             <Text style={styles.cards}>Listar</Text>
+            <Image 
+              style={{width: 48, height: 48, position: "absolute", marginLeft: 185, marginTop: 4}}
+              source={require('../../../assets/listaCarro.png')}
+            />
           </View>
 
-          {/* <Image 
-              style={{width: 50, height: 50, position: "absolute"}}
-              source={require('../../../assets/cadastroCarro.png')}
-          /> */}
+          
         </SafeAreaView>
     );
   }
@@ -80,17 +93,17 @@ const styles = StyleSheet.create({
   cards: {
     color: '#FBE37B',
     fontSize: 30,
-    marginTop: 15,
+    marginTop: 8,
     marginLeft: 20,
     fontFamily: 'Montserrat-Regular',
 
   },
   nameCards: {
     backgroundColor: '#282928',
-    borderRadius: 20,
-    width: 300,
-    height: 70,
-    marginTop: 10,
+    borderRadius: 13,
+    width: 250,
+    height: 60,
+    marginTop: 20,
     flexDirection: 'row',
   }
 });
