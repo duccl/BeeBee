@@ -13,7 +13,40 @@ import {
 } from 'react-native';
 
 import * as Animatable from 'react-native-animatable';
+import { Stitch, AnonymousCredential } from "mongodb-stitch-react-native-sdk";
+constructor(props) {
+    super(props);
+    this.state = {
+      currentUserId: undefined,
+      client: undefined,
+      loaded:false
+    };
+    this._loadClient = this._loadClient.bind(this);
+  }
 
+  componentDidMount() {
+    this._loadClient();
+  }
+
+  _loadClient() {
+    Stitch.initializeDefaultAppClient("parkmanager-ypqep").then(client => {
+      this.setState({ client });
+      this.state.client.auth
+        .loginWithCredential(new AnonymousCredential())
+        .then(user => {
+          console.log(`Successfully logged in as user ${user.id}`);
+          this.setState({ currentUserId: user.id });
+          this.setState({ currentUserId: client.auth.user.id });
+          this.setState({loaded:true})
+        })
+        .catch(err => {
+          console.log(`Failed to log in anonymously: ${err}`);
+          this.setState({ currentUserId: undefined });
+          this.setState({loaded:false})
+          alert(err)
+        });
+    });
+  }
 
 export default class Main extends Component{
   render() {
