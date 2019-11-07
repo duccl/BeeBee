@@ -52,7 +52,14 @@ export default class Cadastrar extends Component{
       ).catch(error => {
         console.log("errou;")
         alert(error.message);
+        return;
       })
+      alert("Cadastro realizado com sucesso!")
+      this.textInputContato.clear();
+      this.textInputNome.clear();
+      this.textInputPlaca.clear();
+      this.textInputMarca.clear();
+      this.textInputModelo.clear();
   }
 
   render() {
@@ -64,15 +71,15 @@ export default class Cadastrar extends Component{
           <ScrollView>
 
             <View style={{padding: 15}}>
-              <Text style={{fontFamily: 'Montserrat-SemiBold', fontSize: 20, color: '#282928'}}>Preencha os campos abaixo e pressione o bot„o para finalizar seu cadastro:</Text>
+              <Text style={{fontFamily: 'Montserrat-SemiBold', fontSize: 20, color: '#282928'}}>Preencha os campos abaixo e pressione o bot√£o para finalizar seu cadastro:</Text>
             </View>
 
             {/* Cria a caixa de texto do Nome */}
             <View style={{ flex: 2 }}>
               <View style={{ height: 80, paddingHorizontal: 17, justifyContent: 'center'}}>
-                <Text style={styles.titles}>Nome do propriet·rio</Text>
+                <Text style={styles.titles}>Nome do propriet√°rio</Text>
                 <View style={{ borderRadius: 10, height: 50, backgroundColor: '#DBA901', flexDirection: 'row', padding: 5, alignItems: 'center'}}>
-                  <TextInput placeholder='Ex: Jo„o' style={{fontSize: 16, marginLeft: 10}} onChangeText={(text) => this.setState({nome:text})}/>
+                  <TextInput ref={input => { this.textInputNome = input }} placeholder='Ex: Jo√£o' style={{fontSize: 16, marginLeft: 10}} onChangeText={(text) => this.setState({nome:text})}/>
                 </View>
               </View>
             </View>
@@ -82,7 +89,7 @@ export default class Cadastrar extends Component{
               <View style={{ height: 80, paddingHorizontal: 17, justifyContent: 'center'}}>
                 <Text style={styles.titles}>Telefone</Text>
                 <View style={{ borderRadius: 10, height: 50, backgroundColor: '#DBA901', flexDirection: 'row', padding: 5, alignItems: 'center'}}>
-                  <TextInput placeholder='Ex: (DDD) 98765-4321' style={{fontSize: 16, marginLeft: 10}} onChangeText={(text) => this.setState({telefone:text})}/>
+                  <TextInput ref={input => { this.textInputContato = input }} placeholder='Ex: (DDD) 98765-4321' style={{fontSize: 16, marginLeft: 10}} onChangeText={(text) => this.setState({telefone:text})}/>
                 </View>
               </View>
             </View>
@@ -90,9 +97,9 @@ export default class Cadastrar extends Component{
             {/* Cria a caixa de texto do Placa */}
             <View style={{ flex: 2 }}>
               <View style={{ height: 80, paddingHorizontal: 17, justifyContent: 'center'}}>
-                <Text style={styles.titles}>Placa do veÌculo</Text>
+                <Text style={styles.titles}>Placa do ve√≠culo</Text>
                 <View style={{ borderRadius: 10, height: 50, backgroundColor: '#DBA901', flexDirection: 'row', padding: 5, alignItems: 'center'}}>
-                  <TextInput placeholder='Ex: MGE-1010' style={{fontSize: 16, marginLeft: 10}} onChangeText={(text) => this.setState({placa:text})}/>
+                  <TextInput ref={input => { this.textInputPlaca = input }} placeholder='Ex: MGE-1010' style={{fontSize: 16, marginLeft: 10}} onChangeText={(text) => this.setState({placa:text})}/>
                 </View>
               </View>
             </View>
@@ -100,9 +107,9 @@ export default class Cadastrar extends Component{
             {/* Cria a caixa de texto do Marca */}
             <View style={{ flex: 2 }}>
               <View style={{ height: 80, paddingHorizontal: 17, justifyContent: 'center'}}>
-                <Text style={styles.titles}>Marca do veÌculo</Text>
+                <Text style={styles.titles}>Marca do ve√≠culo</Text>
                 <View style={{ borderRadius: 10, height: 50, backgroundColor: '#DBA901', flexDirection: 'row', padding: 5, alignItems: 'center'}}>
-                  <TextInput placeholder='Ex: Ford' style={{fontSize: 16, marginLeft: 10}} onChangeText={(text) => this.setState({marca:text})}/>
+                  <TextInput ref={input => { this.textInputMarca = input }} placeholder='Ex: Ford' style={{fontSize: 16, marginLeft: 10}} onChangeText={(text) => this.setState({marca:text})}/>
                 </View>
               </View>
             </View>
@@ -110,15 +117,15 @@ export default class Cadastrar extends Component{
             {/* Cria a caixa de texto do Modelo */}
             <View style={{ flex: 3 }}>
               <View style={{ height: 80, paddingHorizontal: 17, justifyContent: 'center'}}>
-                <Text style={styles.titles}>Modelo do veÌculo</Text>
+                <Text style={styles.titles}>Modelo do ve√≠culo</Text>
                 <View style={{ borderRadius: 10, height: 50, backgroundColor: '#DBA901', flexDirection: 'row', padding: 5, alignItems: 'center'}}>
-                  <TextInput placeholder='Ex: Fusion' style={{fontSize: 16, marginLeft: 10}} onChangeText={(text) => this.setState({modelo:text})}/>
+                  <TextInput ref={input => { this.textInputModelo = input }} placeholder='Ex: Fusion' style={{fontSize: 16, marginLeft: 10}} onChangeText={(text) => this.setState({modelo:text})}/>
                 </View>
               </View>
             </View>
 
             
-          {/* Cria o bot„o de cadastro */}
+          {/* Cria o bot√£o de cadastro */}
           {alert([1,2,4])}
           <View style={{alignItems: 'center'}}>
               <View style={styles.circle} onTouchEnd={this.insert.bind(this)}>
