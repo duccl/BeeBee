@@ -14,7 +14,9 @@ import {
 
 import * as Animatable from 'react-native-animatable';
 import { Stitch, AnonymousCredential } from "mongodb-stitch-react-native-sdk";
-constructor(props) {
+
+export default class Main extends Component{
+  constructor(props) {
     super(props);
     this.state = {
       currentUserId: undefined,
@@ -48,7 +50,6 @@ constructor(props) {
     });
   }
 
-export default class Main extends Component{
   render() {
     return (
         <SafeAreaView style={styles.container}>
