@@ -12,14 +12,46 @@ import {
 } from 'react-native';
 
 export default class Listar extends Component{
+
+  constructor(props){
+    super(props)
+    this.state = {
+      placa:undefined,
+      parker:undefined
+    }
+  }
+
+  query_data(){
+    const stitchAppClient = Stitch.defaultAppClient;
+    const mongoClient = stitchAppClient.getServiceClient(
+      RemoteMongoClient.factory,
+      "mongodb-atlas"
+    );
+    const db = mongoClient.db("taskmanager");
+    const parkers = db.collection("parkers");
+    const docs = parkers.find({placa:this.state.placa})
+      .asArray()
+        .then(docs => docs.length === 0 ? Alert.alert('BeeBee',"Cliente não encontrado.") : docs.map(item => this.update_state(item)))
+          .catch(e => alert(e))
+    this.textInputPlaca.clear();
+  }
+
   render() {
     return (
         <SafeAreaView style={styles.container}>
 
           <StatusBar backgroundColor="#DBA901" barStyle="light-content"></StatusBar>
         
-          <View>
-              <Text>Listar</Text>
+          <View style={{paddingHorizontal: 10}}>
+            <View style={{padding: 10}}>
+              <Text style={{fontFamily: 'Montserrat-SemiBold', fontSize: 20, color: '#282928'}}>Abaixo encontram-se todos os clientes cadastrados:</Text>
+            </View>
+
+            <ScrollView style={styles.baseTelaDeDados}></ScrollView>
+
+            <View>
+              <Text></Text>
+            </View>
           </View>
         </SafeAreaView>
     );
@@ -33,37 +65,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#FACC2E"
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: "center",
-    margin: 10,
-    color: "#FFF",
-    fontWeight: "bold"
-  },
-  separator: {
-    marginVertical: 8,
-    borderBottomColor: '#737373',
-    borderBottomWidth: StyleSheet.hairlineWidth,
-  },
-  button: {
-    width: 300,
-    justifyContent: "center"
-  },
-  cards: {
-    color: '#FBE37B',
-    fontSize: 30,
-    marginTop: 12,
-    fontFamily: 'Montserrat-Regular',
-
-  },
-  nameCards: {
-    backgroundColor: '#282928',
-    borderRadius: 20,
-    width: 200,
-    height: 70,
-    marginTop: 10,
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center'
+  baseTelaDeDados: {
+    backgroundColor: '#DBA901',
+    width: 340,
+    borderRadius: 10
   }
 });
