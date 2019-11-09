@@ -10,50 +10,72 @@ import {
   Animated,
   Image,
 } from 'react-native';
+import { Card } from 'react-native-paper';
+import { Stitch, RemoteMongoClient } from "mongodb-stitch-react-native-sdk";
 
-export default class Listar extends Component{
+export default class Listar extends Component {
 
-  constructor(props){
+  constructor(props) {
     super(props)
     this.state = {
-      placa:undefined,
-      parker:undefined
+      placa: undefined,
+      docs: undefined
     }
   }
 
-  query_data(){
+  componentWillMount() { this.query_data(); }
+
+  async query_data() {
     const stitchAppClient = Stitch.defaultAppClient;
     const mongoClient = stitchAppClient.getServiceClient(
-      RemoteMongoClient.factory,
-      "mongodb-atlas"
+      RemoteMongoClient.factory, "mongodb-atlas"
     );
-    const db = mongoClient.db("taskmanager");
-    const parkers = db.collection("parkers");
-    const docs = parkers.find({placa:this.state.placa})
-      .asArray()
-        .then(docs => docs.length === 0 ? Alert.alert('BeeBee',"Cliente não encontrado.") : docs.map(item => this.update_state(item)))
-          .catch(e => alert(e))
-    this.textInputPlaca.clear();
+    const collection = mongoClient.db("taskmanager").collection("parkers");
+
+    const docs = await collection.find({}).toArray()
+      //.then(docs => this.setState({ docs }))
+      .catch(err => alert(err.message))
+    docs.sort((a, b) => {
+      return new Date(a.date) - new Date(b.date)
+    })
+    this.setState({ docs });
+  }
+
+  card(valor) {
+    return (
+      <View style={{ padding: 10 }}>
+        <Card style={{ padding: 10, backgroundColor: '#DBA900' }}>
+          <Text style={styles.dados}>{valor.nome}</Text>
+          <Text style={styles.dados}>{valor.telefone}</Text>
+          <Text style={styles.dados}>{valor.placa}</Text>
+          <Text style={styles.dados}>{valor.tipo}</Text>
+          <Text style={styles.dados}>{valor.modelo}</Text>
+          <Text style={styles.dados}>{valor.date.toLocaleString()}</Text>
+        </Card>
+      </View>
+    )
   }
 
   render() {
     return (
-        <SafeAreaView style={styles.container}>
+      <SafeAreaView style={styles.container}>
 
-          <StatusBar backgroundColor="#DBA901" barStyle="light-content"></StatusBar>
-        
-          <View style={{paddingHorizontal: 10}}>
-            <View style={{padding: 10}}>
-              <Text style={{fontFamily: 'Montserrat-SemiBold', fontSize: 20, color: '#282928'}}>Abaixo encontram-se todos os clientes cadastrados:</Text>
-            </View>
+        <StatusBar backgroundColor="#DBA901" barStyle="light-content"></StatusBar>
 
-            <ScrollView style={styles.baseTelaDeDados}></ScrollView>
-
-            <View>
-              <Text></Text>
-            </View>
+        <View style={{ paddingHorizontal: 10 }}>
+          <View style={{ padding: 10 }}>
+            <Text style={{ fontFamily: 'Montserrat-SemiBold', fontSize: 20, color: '#282928' }}>Abaixo encontram-se todos os clientes cadastrados:</Text>
           </View>
-        </SafeAreaView>
+
+          <ScrollView style={styles.baseTelaDeDados}>
+            {this.state.docs && this.state.docs.map(valor => this.card(valor))}
+          </ScrollView>
+
+          <View>
+            <Text></Text>
+          </View>
+        </View>
+      </SafeAreaView>
     );
   }
 }
@@ -66,8 +88,13 @@ const styles = StyleSheet.create({
     backgroundColor: "#FACC2E"
   },
   baseTelaDeDados: {
-    backgroundColor: '#DBA901',
+    backgroundColor: '#282928',
     width: 340,
     borderRadius: 10
+  },
+  dados: {
+    fontFamily: 'Montserrat-SemiBold',
+    fontSize: 15,
+    color: '#282928'
   }
 });
